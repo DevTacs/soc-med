@@ -2,6 +2,7 @@ import User from '../models/user.model.js'
 
 export const getUsers = async () => await User.find()
 export const getUserById = async (id) => await User.findById(id)
+export const getUserByEmail = async (email) => await User.findOne({email})
 export const insertUser = async (user) => await User.create(user)
 export const updateUserById = async (userID) =>
     await User.findByIdAndUpdate(userID)
