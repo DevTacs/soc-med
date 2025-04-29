@@ -14,5 +14,8 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
+const authRoute = require('./routes/auth.js')
+app.use('/api/auth', authRoute)
+
 const PORT = process.env.PORT || 3000
 app.listen(PORT)
