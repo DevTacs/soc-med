@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
@@ -13,6 +14,9 @@ app.use(
 app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+
+import connectDB from './configs/database.config.js'
+connectDB()
 
 import authRoute from './routes/auth.route.js'
 app.use('/api/auth', authRoute)
