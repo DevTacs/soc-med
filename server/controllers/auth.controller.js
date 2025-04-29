@@ -69,5 +69,13 @@ export const register = async (req, res, next) => {
 }
 
 export const logout = async (req, res, next) => {
-    res.send('Logout')
+    const {accessToken, refreshToken} = req.cookies
+
+    if (!accessToken || !refreshToken)
+        return next(createError(401, 'Unauthorized'))
+
+    res.clearCookie('accessToken')
+    res.clearCookie('refreshToken')
+
+    res.status(200).json({success: true, message: 'Logout successful'})
 }
