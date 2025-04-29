@@ -1,4 +1,4 @@
-import {insertUser, findUserById} from '../services/user.service.js'
+import {insertUser, getUserById} from '../services/user.service.js'
 
 export const login = async (req, res, next) => {
     res.send('login')
