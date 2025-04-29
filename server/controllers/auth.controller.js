@@ -34,9 +34,40 @@ export const login = async (req, res, next) => {
 }
 
 export const register = async (req, res, next) => {
-    res.send('register')
+    const {username, email, password} = req.body
+
+    const [isEmailExist, isUsernameExist] = await Promise.all([
+        getUserByEmail(email),
+        getUserByUsername(username),
+    ])
+
+    if (isEmailExist) return next(createError(400, 'Email already exists'))
+    if (isUsernameExist)
+        return next(createError(400, 'Username already exists'))
+
+    const user = await insertUser({username, email, password})
+
+    const payload = {
+        id: user._id,
+        email: user.email,
+        username: user.username,
+    }
+
+    const accessToken = generateAccessToken(
+        payload,
+        process.env.ACCESS_TOKEN_SECRET
+    )
+    const refreshToken = generateRefreshToken(
+        payload,
+        process.env.REFRESH_TOKEN_SECRET
+    )
+
+    createCookie(res, 'accessToken', accessToken, minutesToMilliseconds(15))
+    createCookie(res, 'refreshToken', refreshToken, daysToMilliseconds(7))
+
+    res.status(201).json({success: true, message: 'User created'})
 }
 
 export const logout = async (req, res, next) => {
-    res.send('logout')
+    res.send('Logout')
 }
