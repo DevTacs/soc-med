@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
@@ -14,8 +15,14 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
-const authRoute = require('./routes/auth.js')
+import connectDB from './configs/database.config.js'
+connectDB()
+
+import authRoute from './routes/auth.route.js'
 app.use('/api/auth', authRoute)
+
+import errorHandler from './middlewares/errorHandler.js'
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT)
