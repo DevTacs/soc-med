@@ -1,29 +1,38 @@
 import Form from '../components/Form'
+import useRegisterForm from '../hooks/useRegisterForm'
 
 export default function RegisterPage() {
+    const {control, handleSubmit} = useRegisterForm()
     return (
-        <Form>
+        <Form handleSubmit={handleSubmit}>
             <Form.Title title="Register" />
             <Form.InputField
-                control="username"
+                control={control}
                 name="username"
                 label="Username"
                 type="username"
                 placeholder="Enter your username"
             />
             <Form.InputField
-                control="email"
+                control={control}
                 name="email"
                 label="Email"
                 type="email"
                 placeholder="Enter your email"
             />
             <Form.InputField
-                control="password"
+                control={control}
                 name="password"
                 label="Password"
                 type="password"
                 placeholder="Enter your password"
+            />
+            <Form.InputField
+                control={control}
+                name="confirmPassword"
+                label="ConfirmPassword"
+                type="password"
+                placeholder="Enter your confirmPassword"
             />
             <Form.Button text="Submit" />
             <Form.NavLink
