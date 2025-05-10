@@ -1,8 +1,12 @@
 import {Link} from 'react-router-dom'
+import {useController} from 'react-hook-form'
+import ErrorLabel from './ErrorLabel'
 
-export default function Form({children}) {
+export default function Form({children, handleSubmit}) {
     return (
-        <form className="w-[350px] flex flex-col py-4 px-8 shadow-sm shadow-accent rounded-md">
+        <form
+            onSubmit={handleSubmit((data) => console.log(data))}
+            className="w-[350px] flex flex-col py-4 px-8 shadow-sm shadow-accent rounded-md">
             {children}
         </form>
     )
@@ -13,10 +17,20 @@ Form.Title = ({title}) => {
 }
 
 Form.InputField = ({control, name, label, type = 'text', placeholder}) => {
+    const {
+        field,
+        fieldState: {error},
+    } = useController({control, name})
     return (
         <fieldset className="fieldset">
             <legend className="fieldset-legend">{label}</legend>
-            <input type={type} className="input" placeholder={placeholder} />
+            <ErrorLabel error={error?.message} />
+            <input
+                {...field}
+                type={type}
+                className="input"
+                placeholder={placeholder}
+            />
         </fieldset>
     )
 }

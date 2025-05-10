@@ -1,18 +1,20 @@
 import Form from '../components/Form'
+import useLoginForm from '../hooks/useLoginForm'
 
 export default function LoginPage() {
+    const {control, handleSubmit} = useLoginForm()
     return (
-        <Form>
+        <Form handleSubmit={handleSubmit}>
             <Form.Title title="Login" />
             <Form.InputField
-                control="email"
+                control={control}
                 name="email"
                 label="Email"
                 type="email"
                 placeholder="Enter your email"
             />
             <Form.InputField
-                control="password"
+                control={control}
                 name="password"
                 label="Password"
                 type="password"
